@@ -1,9 +1,0 @@
-C:\Users\jaroslav\Repositories\SharpFilesCore\SharpFilesCore\bin\Debug\netcoreapp2.2\SharpFilesCore.deps.json
-C:\Users\jaroslav\Repositories\SharpFilesCore\SharpFilesCore\bin\Debug\netcoreapp2.2\SharpFilesCore.dll
-C:\Users\jaroslav\Repositories\SharpFilesCore\SharpFilesCore\bin\Debug\netcoreapp2.2\SharpFilesCore.pdb
-C:\Users\jaroslav\Repositories\SharpFilesCore\SharpFilesCore\obj\Debug\netcoreapp2.2\SharpFilesCore.csprojAssemblyReference.cache
-C:\Users\jaroslav\Repositories\SharpFilesCore\SharpFilesCore\obj\Debug\netcoreapp2.2\SharpFilesCore.csproj.CoreCompileInputs.cache
-C:\Users\jaroslav\Repositories\SharpFilesCore\SharpFilesCore\obj\Debug\netcoreapp2.2\SharpFilesCore.AssemblyInfoInputs.cache
-C:\Users\jaroslav\Repositories\SharpFilesCore\SharpFilesCore\obj\Debug\netcoreapp2.2\SharpFilesCore.AssemblyInfo.cs
-C:\Users\jaroslav\Repositories\SharpFilesCore\SharpFilesCore\obj\Debug\netcoreapp2.2\SharpFilesCore.dll
-C:\Users\jaroslav\Repositories\SharpFilesCore\SharpFilesCore\obj\Debug\netcoreapp2.2\SharpFilesCore.pdb

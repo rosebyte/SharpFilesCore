@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using Xunit;
 
-namespace SharpFilesCore.Tests
+namespace SharpFilesCore.Tests.Internal
 {
     public class PathTests : IDisposable
     {

@@ -5,7 +5,7 @@ using System.Reflection;
 using SharpFilesCore.Internal;
 using Xunit;
 
-namespace SharpFilesCore.Tests
+namespace SharpFilesCore.Tests.Internal
 {
     public class FolderTests : IDisposable
     {

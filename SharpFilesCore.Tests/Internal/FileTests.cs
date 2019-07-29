@@ -1,11 +1,10 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using Xunit;
 
-namespace SharpFilesCore.Tests
+namespace SharpFilesCore.Tests.Internal
 {
     public class FileTests : IDisposable
     {

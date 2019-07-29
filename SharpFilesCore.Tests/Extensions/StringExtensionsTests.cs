@@ -4,7 +4,7 @@ using System.Reflection;
 using SharpFilesCore.Internal;
 using Xunit;
 
-namespace SharpFilesCore.Tests
+namespace SharpFilesCore.Tests.Extensions
 {
     public class StringExtensionsTests
     {

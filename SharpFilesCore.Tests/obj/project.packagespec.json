@@ -17,7 +17,11 @@
     },
     "frameworks": {
       "netcoreapp2.2": {
-        "projectReferences": {}
+        "projectReferences": {
+          "C:\\Users\\jaroslav\\Repositories\\SharpFilesCore\\SharpFilesCore\\SharpFilesCore.csproj": {
+            "projectPath": "C:\\Users\\jaroslav\\Repositories\\SharpFilesCore\\SharpFilesCore\\SharpFilesCore.csproj"
+          }
+        }
       }
     },
     "warningProperties": {
@@ -38,6 +42,10 @@
           "target": "Package",
           "version": "[2.2.0, )",
           "autoReferenced": true
+        },
+        "Moq": {
+          "target": "Package",
+          "version": "[4.12.0, )"
         },
         "xunit": {
           "target": "Package",

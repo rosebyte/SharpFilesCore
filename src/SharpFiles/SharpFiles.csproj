@@ -2,6 +2,9 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
+        <AssemblyName>RoseByte.SharpFiles.Core</AssemblyName>
+        <RootNamespace>RoseByte.SharpFiles.Core</RootNamespace>
+        <PackageVersion>1.0.1</PackageVersion>
     </PropertyGroup>
 
 </Project>

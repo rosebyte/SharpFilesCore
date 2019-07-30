@@ -4,6 +4,10 @@
         <TargetFramework>netcoreapp2.2</TargetFramework>
 
         <IsPackable>false</IsPackable>
+
+        <AssemblyName>RoseByte.SharpFiles.Core.Tests</AssemblyName>
+
+        <RootNamespace>RoseByte.SharpFiles.Core.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

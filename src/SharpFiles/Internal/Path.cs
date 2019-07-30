@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("SharpFiles.Tests")]
+[assembly: InternalsVisibleTo("RoseByte.SharpFiles.Core.Tests")]
 namespace SharpFilesCore.Internal
 {
     public class Path : FsPath

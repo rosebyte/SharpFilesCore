@@ -1,10 +1,12 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using RoseByte.SharpFiles.Core.Internal;
+using SharpFilesCore;
 using SharpFilesCore.Internal;
 using Xunit;
 
-namespace SharpFilesCore.Tests.Extensions
+namespace RoseByte.SharpFiles.Core.Tests.Extensions
 {
     public class StringExtensionsTests
     {
@@ -32,7 +34,7 @@ namespace SharpFilesCore.Tests.Extensions
             Assert.Null(" ".ToFile());
         }
 
-        [Fact(Skip = "Travis fail.")]
+        [Fact]
         public void ShouldReturnFolderPath()
         {
             Assert.IsAssignableFrom<FsFolder>("C:\\Windows".ToPath());
@@ -53,14 +55,14 @@ namespace SharpFilesCore.Tests.Extensions
             Assert.IsAssignableFrom<FsFile>(filePath.ToPath());
         }
         
-        [Fact(Skip = "Travis fail.")]
+        [Fact]
         public void ShouldResolveRelativeFolder()
         {
             var folderName = System.IO.Path.GetFullPath(".").Split('\\').Last();
             Assert.Equal($"..\\.\\{folderName}".ToFolder(), System.IO.Path.GetFullPath(".").ToFolder());
         }
         
-        [Fact(Skip = "Travis fail.")]
+        [Fact]
         public void ShouldResolveRelativeFile()
         {
             var fileName = System.IO.Path.GetFileName(Assembly.GetCallingAssembly().Location);
@@ -69,7 +71,7 @@ namespace SharpFilesCore.Tests.Extensions
             Assert.Equal($".\\{fileName}".ToFile(), fullName.ToFile());
         }
         
-        [Fact(Skip = "Travis fail.")]
+        [Fact]
         public void ShouldResolveFilePath()
         {
             var fileName = System.IO.Path.GetFileName(Assembly.GetCallingAssembly().Location);
@@ -78,7 +80,7 @@ namespace SharpFilesCore.Tests.Extensions
             Assert.Equal($".\\{fileName}".ToPath(), fullName.ToFile());
         }
         
-        [Fact(Skip = "Travis fail.")]
+        [Fact]
         public void ShouldResolveParentPath()
         {
             var fileName = System.IO.Path.GetFileName(Assembly.GetCallingAssembly().Location);

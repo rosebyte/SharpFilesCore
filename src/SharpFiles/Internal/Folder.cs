@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using File = SharpFilesCore.Internal.File;
 
-namespace SharpFilesCore.Internal
+namespace RoseByte.SharpFiles.Core.Internal
 {
     public class Folder : FsFolder
     {

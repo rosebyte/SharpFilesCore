@@ -2,10 +2,12 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using RoseByte.SharpFiles.Core.Internal;
+using SharpFilesCore;
 using SharpFilesCore.Internal;
 using Xunit;
 
-namespace SharpFilesCore.Tests.Internal
+namespace RoseByte.SharpFiles.Core.Tests.Internal
 {
     public class FolderTests : IDisposable
     {
@@ -96,7 +98,7 @@ namespace SharpFilesCore.Tests.Internal
             Assert.Equal(44, _folder.CombineFolder("SubFolder_1").Size);
         }
 
-        [Fact(Skip = "Travis fail.")]
+        [Fact]
         public void ShouldCreateFolderInstance()
         {
             var path = "C:\\";
@@ -145,7 +147,7 @@ namespace SharpFilesCore.Tests.Internal
             Assert.Equal(parent.ToString(), parentDir);
         }
         
-        [Fact(Skip = "Travis fail.")]
+        [Fact]
         public void ShouldCreateFolderWithParentFolder()
         {
             AppFsFolder.CombineFolder("FolderCreationTest\\Subfolder\\OneMoreSubfolder").Create();
@@ -173,7 +175,7 @@ namespace SharpFilesCore.Tests.Internal
             Assert.Equal("C:\\Test.Folder", sut.ToString());
         }
 
-        [Fact(Skip = "Travis fail.")]
+        [Fact]
         public void ShouldCopySubfile()
         {
             var value = "SubFolder_1\\Test_1_1.txt";

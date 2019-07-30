@@ -2,9 +2,10 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using SharpFilesCore;
 using Xunit;
 
-namespace SharpFilesCore.Tests.Internal
+namespace RoseByte.SharpFiles.Core.Tests.Internal
 {
     public class FileTests : IDisposable
     {
@@ -23,7 +24,7 @@ namespace SharpFilesCore.Tests.Internal
             _folder.Remove();
         }
         
-        [Fact(Skip = "Travis fail")]
+        [Fact]
         public void ShouldCreateInstance()
         {
             var path = "C:\\test.txt";

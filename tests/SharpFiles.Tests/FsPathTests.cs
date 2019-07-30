@@ -3,9 +3,10 @@ using System.IO;
 using System.Reflection;
 using Moq;
 using Moq.Protected;
+using SharpFilesCore;
 using Xunit;
 
-namespace SharpFilesCore.Tests
+namespace RoseByte.SharpFiles.Core.Tests
 {
     public class FsPathTests
     {
@@ -31,24 +32,24 @@ namespace SharpFilesCore.Tests
             var sut = new Mock<FsPath>("C:\\test.txt");
             sut.Protected().Setup<long>("GetSize").Returns(100);
             
-            Assert.Equal(sut.Object.Size, 100);
+            Assert.Equal(100, sut.Object.Size);
         }
         
-        [Fact(Skip = "Travis fail.")]
+        [Fact]
         public void ShouldImplicitlyConvertToString()
         {
-            Assert.True(string.Equals("C:\\".ToPath(), "C:"));
+            Assert.Equal("C:", "C:\\".ToPath());
         }
 
-        [Fact(Skip = "Travis fail.")]
+        [Fact]
         public void ToStringOverride()
         {
             var sut = "C:\\".ToPath();
             
-            Assert.Equal(sut.ToString(), "C:");
+            Assert.Equal("C:", sut.ToString());
         }
 
-        [Fact(Skip = "Travis fail.")]
+        [Fact]
         public void GetHashCodeOverride()
         {
             var sut = "C:\\".ToPath();

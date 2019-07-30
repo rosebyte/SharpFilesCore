@@ -1,9 +1,10 @@
 using System;
 using System.IO;
 using System.Reflection;
+using SharpFilesCore;
 using Xunit;
 
-namespace SharpFilesCore.Tests.Internal
+namespace RoseByte.SharpFiles.Core.Tests.Internal
 {
     public class PathTests : IDisposable
     {

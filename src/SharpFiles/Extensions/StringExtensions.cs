@@ -1,6 +1,8 @@
-using SharpFilesCore;
+using RoseByte.SharpFiles.Core;
+using RoseByte.SharpFiles.Core.Internal;
 using SharpFilesCore.Internal;
 
+// ReSharper disable once CheckNamespace
 namespace System
 {
     public static class StringExtensions

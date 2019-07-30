@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using SharpFilesCore;
 
-namespace SharpFilesCore
+namespace RoseByte.SharpFiles.Core
 {
     public abstract class FsFolder : FsPath
     {

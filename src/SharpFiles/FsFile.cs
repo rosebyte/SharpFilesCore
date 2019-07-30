@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace SharpFilesCore
+namespace RoseByte.SharpFiles.Core
 {
     public abstract class FsFile : FsPath
     {

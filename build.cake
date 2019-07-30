@@ -5,7 +5,7 @@ using NuGet;
 
 var target = Argument("target", "Default");
 var artifactsDir = "./artifacts/";
-var solutionPath = "./SharpFilesCore.sln";
+var solutionPath = "./SharpFiles.sln";
 var project = "./src/SharpFiles/SharpFiles.csproj";
 var testProject = "./tests/SharpFiles.Tests/SharpFiles.Tests.csproj";
 var currentBranch = Argument<string>("currentBranch", GitBranchCurrent("./").FriendlyName);
@@ -129,6 +129,5 @@ else
 
 Task("Default")
     .IsDependentOn("Complete");
-
 
 RunTarget(target);

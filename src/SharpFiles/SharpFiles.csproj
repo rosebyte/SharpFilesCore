@@ -4,7 +4,15 @@
         <TargetFramework>netcoreapp2.2</TargetFramework>
         <AssemblyName>RoseByte.SharpFiles.Core</AssemblyName>
         <RootNamespace>RoseByte.SharpFiles.Core</RootNamespace>
-        <PackageVersion>1.0.1</PackageVersion>
+        <PackageVersion>1.0.2</PackageVersion>
+        <Title>SharpFiles Core</Title>
+        <Authors>Jaroslav Ruzicka</Authors>
+        <Description>Filepath abstraction connecting various static functions provided by .NET</Description>
+        <PackageProjectUrl>https://github.com/rosebyte/SharpFilesCore</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/rosebyte/SharpFilePath/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageIconUrl>https://png.icons8.com/ios-glyphs/50/000000/document.png</PackageIconUrl>
+        <RepositoryUrl>https://github.com/rosebyte/SharpFilesCore</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
     </PropertyGroup>
 
 </Project>

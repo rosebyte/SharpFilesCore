@@ -1,11 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace RoseByte.SharpFiles.Core.Internal
 {
@@ -78,7 +74,7 @@ namespace RoseByte.SharpFiles.Core.Internal
             }
         }
 
-        public override void CopyToParent(FsFolder target)
+        public override void CopyToFolder(FsFolder target)
         {
             try
             {
@@ -120,7 +116,7 @@ namespace RoseByte.SharpFiles.Core.Internal
 
         public override bool Exists => System.IO.File.Exists(Path);
 
-        public override void Write(string content)
+        public override FsFile Write(string content)
         {
             try
             {
@@ -131,6 +127,18 @@ namespace RoseByte.SharpFiles.Core.Internal
             {
                 throw new Exception($"Cannot write to '{Path}': {exception.Message}");
             }
+
+            return this;
+        }
+
+        public override FsFile Create()
+        {
+            if (!Exists)
+            {
+                Write(string.Empty);
+            }
+
+            return this;
         }
     }
 }

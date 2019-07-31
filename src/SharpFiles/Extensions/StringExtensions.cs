@@ -1,6 +1,5 @@
 using RoseByte.SharpFiles.Core;
 using RoseByte.SharpFiles.Core.Internal;
-using SharpFilesCore.Internal;
 
 // ReSharper disable once CheckNamespace
 namespace System
@@ -13,44 +12,34 @@ namespace System
             {
                 return null;
             }
-            
-            path = System.IO.Path.GetFullPath(path);
-			
-            if (System.IO.Directory.Exists(path))
+
+            path = IO.Path.GetFullPath(path);
+
+            if (IO.Directory.Exists(path))
             {
                 return new Folder(path);
             }
-			
-            if (System.IO.File.Exists(path))
+
+            if (IO.File.Exists(path))
             {
                 return new File(path);
             }
-			
+
             return new Path(path);
         }
 
         public static FsFile ToFile(this string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                return null;
-            }
-            
-            path = System.IO.Path.GetFullPath(path);
-            
-            return new File(path);
+            return string.IsNullOrWhiteSpace(path)
+                ? null
+                : new File(IO.Path.GetFullPath(path));
         }
 
         public static FsFolder ToFolder(this string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                return null;
-            }
-            
-            path = System.IO.Path.GetFullPath(path);
-            
-            return new Folder(path);
+            return string.IsNullOrWhiteSpace(path)
+                ? null
+                : new Folder(IO.Path.GetFullPath(path));
         }
     }
 }

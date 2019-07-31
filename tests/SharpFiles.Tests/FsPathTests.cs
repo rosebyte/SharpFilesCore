@@ -3,7 +3,6 @@ using System.IO;
 using System.Reflection;
 using Moq;
 using Moq.Protected;
-using SharpFilesCore;
 using Xunit;
 
 namespace RoseByte.SharpFiles.Core.Tests
@@ -17,9 +16,9 @@ namespace RoseByte.SharpFiles.Core.Tests
             var sut = Path.Combine(dir).ToPath();
             var sut2 = Path.Combine(dir).ToPath();
             var sut3 = sut.Parent;
-            
+
             Assert.True(sut.Equals(sut2));
-            
+
             Assert.True(sut == sut2);
             Assert.False(sut == sut3);
             Assert.False(sut != sut2);
@@ -31,10 +30,10 @@ namespace RoseByte.SharpFiles.Core.Tests
         {
             var sut = new Mock<FsPath>("C:\\test.txt");
             sut.Protected().Setup<long>("GetSize").Returns(100);
-            
+
             Assert.Equal(100, sut.Object.Size);
         }
-        
+
         [Fact]
         public void ShouldImplicitlyConvertToString()
         {
@@ -45,7 +44,7 @@ namespace RoseByte.SharpFiles.Core.Tests
         public void ToStringOverride()
         {
             var sut = "C:\\".ToPath();
-            
+
             Assert.Equal("C:", sut.ToString());
         }
 
@@ -53,7 +52,7 @@ namespace RoseByte.SharpFiles.Core.Tests
         public void GetHashCodeOverride()
         {
             var sut = "C:\\".ToPath();
-            
+
             Assert.Equal(sut.GetHashCode(), "C:".GetHashCode());
         }
     }

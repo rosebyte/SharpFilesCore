@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using File = SharpFilesCore.Internal.File;
+using File = RoseByte.SharpFiles.Core.Internal.File;
 
 namespace RoseByte.SharpFiles.Core.Internal
 {

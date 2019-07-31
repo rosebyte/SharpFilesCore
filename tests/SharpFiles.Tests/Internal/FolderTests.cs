@@ -3,8 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using RoseByte.SharpFiles.Core.Internal;
-using SharpFilesCore;
-using SharpFilesCore.Internal;
 using Xunit;
 
 namespace RoseByte.SharpFiles.Core.Tests.Internal

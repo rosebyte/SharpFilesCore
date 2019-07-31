@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using SharpFilesCore;
 
 namespace RoseByte.SharpFiles.Core
 {

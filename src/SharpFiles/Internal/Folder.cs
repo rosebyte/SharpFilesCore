@@ -12,7 +12,18 @@ namespace RoseByte.SharpFiles.Core.Internal
         {
         }
 
-        public override string Name => System.IO.Path.GetDirectoryName(Path);
+        public override FsFolder MoveToFolder(FsFolder destination)
+        {
+            var target = destination.CombineFolder(Name);
+            Directory.Move(Path, target);
+            return target;
+        }
+
+        public override FsFolder Move(FsFolder destination)
+        {
+            Directory.Move(Path, destination);
+            return destination;
+        }
 
         public override void Copy(FsFolder destination)
         {
@@ -27,8 +38,7 @@ namespace RoseByte.SharpFiles.Core.Internal
             foreach (var file in Files)
             {
                 var subFile = file.Path.Substring(Path.Length);
-                destination.CombineFile(subFile)
-                    .CopyToFolder(destination.CombineFile(subFile).Parent);
+                file.Copy(destination.CombineFile(subFile));
             }
         }
 
@@ -49,39 +59,79 @@ namespace RoseByte.SharpFiles.Core.Internal
             }
         }
 
-        public override bool Exists => Directory.Exists(Path);
-        public override long Size => Files.Sum(x => x.Size);
-
-        public override FsFile CombineFile(string pathPart) => new File(System.IO.Path.Combine(this, pathPart));
-        public override FsFolder CombineFolder(string pathPart) => new Folder(System.IO.Path.Combine(Path, pathPart));
-        public override FsFolder Parent => new Folder(Directory.GetParent(Path).FullName);
-        public override IEnumerable<FsFile> Files => GetFiles(Path);
-        public override IEnumerable<FsFolder> Folders => GetFolders(Path);
-
-        private IEnumerable<FsFile> GetFiles(string path)
+        public override IEnumerable<FsFile> Files
         {
-            var folders = new[] {path.ToFolder()}.Union(GetFolders(path).Select(x => x));
-
-            foreach (var folder in folders)
+            get
             {
-                var files = Directory.EnumerateFiles(folder, "*", SearchOption.TopDirectoryOnly)
-                    .Select(x => new File(x));
+                var folders = new[] {Path.ToFolder()}.Union(Folders.Select(x => x));
 
-                foreach (var file in files)
+                foreach (var folder in folders)
                 {
-                    yield return new File(file);
+                    var files = Directory.EnumerateFiles(folder, "*", SearchOption.TopDirectoryOnly)
+                        .Select(x => new File(x));
+
+                    foreach (var file in files)
+                    {
+                        yield return new File(file);
+                    }
                 }
             }
         }
 
-        private IEnumerable<FsFolder> GetFolders(string path)
+        public override IEnumerable<FsFolder> Folders
         {
-            var files = Directory.EnumerateDirectories(path, "*", SearchOption.TopDirectoryOnly);
-
-            foreach (var file in files)
+            get
             {
-                yield return new Folder(file);
+                var files = Directory.EnumerateDirectories(Path, "*", SearchOption.TopDirectoryOnly);
+
+                foreach (var file in files)
+                {
+                    yield return new Folder(file);
+                }
             }
+        }
+
+        public override string Name
+        {
+            get
+            {
+                var splited = Path.Replace("/", "\\").Split('\\');
+
+                return splited.Last();
+            }
+        }
+
+        public override bool Exists => Directory.Exists(Path);
+
+        public override long Size => Files.Sum(x => x.Size);
+
+        public override FsFolder Parent => new Folder(Directory.GetParent(Path).FullName);
+
+        public override FsFile CombineFile(string pathPart) =>
+            new File(System.IO.Path.Combine(this, pathPart.TrimStart('/', '\\')));
+
+        public override FsFolder CombineFolder(string pathPart) =>
+            new Folder(System.IO.Path.Combine(Path, pathPart.TrimStart('/', '\\')));
+
+        public override FsFolder Rename(string name)
+        {
+            Directory.Move(Path, Parent.CombineFolder(name));
+            return this;
+        }
+
+        public override void Delete()
+        {
+            if (!Exists)
+            {
+                return;
+            }
+
+            foreach (var file in Files)
+            {
+                file.Delete();
+            }
+
+            Directory.Delete(Path, true);
         }
 
         public override void Delete(string child)
@@ -98,40 +148,6 @@ namespace RoseByte.SharpFiles.Core.Internal
             {
                 file.Delete();
             }
-        }
-
-        public override FsFolder Rename(string name)
-        {
-            Directory.Move(Path, Parent.CombineFolder(name));
-            return this;
-        }
-
-        public override FsFolder MoveToFolder(FsFolder destination)
-        {
-            var target = destination.CombineFolder(Name);
-            Directory.Move(Path, target);
-            return target;
-        }
-
-        public override FsFolder Move(FsFolder destination)
-        {
-            Directory.Move(Path, destination);
-            return destination;
-        }
-
-        public override void Delete()
-        {
-            if (!Exists)
-            {
-                return;
-            }
-
-            foreach (var file in Files)
-            {
-                file.Delete();
-            }
-
-            Directory.Delete(Path, true);
         }
 
         public override FsFolder Create()

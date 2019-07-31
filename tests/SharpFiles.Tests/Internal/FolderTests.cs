@@ -31,11 +31,6 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
             subfolder11.CombineFile("Test_1_1_1.txt").Write("1_1_1");
             subfolder11.CombineFile("Test_1_1_2.txt").Write("1_1_2");
 
-            var subfolder111 = subfolder11.CombineFolder("SubFolder_1_1_1");
-            subfolder111.Create();
-            subfolder111.CombineFile("Test_1_1_1_1.txt").Write("1_1_1_1");
-            subfolder111.CombineFile("Test_1_1_1_2.txt").Write("1_1_1_2");
-
             var subfolder12 = subfolder1.CombineFolder("SubFolder_1_2");
             subfolder12.Create();
             subfolder12.CombineFile("Test_1_2_1.txt").Write("1_2_1");
@@ -68,35 +63,6 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
         }
 
         [Fact]
-        public void ShouldReturnAllFiles()
-        {
-            Assert.Equal(
-                16,
-                Directory.EnumerateFiles(_folder, "*", SearchOption.AllDirectories).Count());
-        }
-
-        [Fact]
-        public void ShouldReturnAllFolders()
-        {
-            Assert.Equal(
-                7,
-                Directory.EnumerateDirectories(_folder, "*", SearchOption.AllDirectories).Count());
-        }
-
-        [Fact]
-        public void ShouldTestIfFolderExists()
-        {
-            Assert.True(_folder.Exists);
-            Assert.False(_folder.CombineFolder("NOT_HERE").Exists);
-        }
-
-        [Fact]
-        public void ShouldSumSIzeOfFolder()
-        {
-            Assert.Equal(44, _folder.CombineFolder("SubFolder_1").Size);
-        }
-
-        [Fact]
         public void ShouldCreateFolderInstance()
         {
             var path = "C:\\";
@@ -110,6 +76,132 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
             var sut = "C:\\".ToFolder();
             Assert.False(sut.IsFile);
             Assert.True(sut.IsFolder);
+        }
+
+        [Fact]
+        public void ShouldMoveSubfile()
+        {
+            var parent = _folder.CombineFolder(nameof(ShouldMoveSubfile)).Create();
+            var subparent = parent.CombineFolder("SubFolder_1").Create();
+            subparent.CombineFile("Test_1_1.txt").Write("1_1");
+            var newParent = _folder.CombineFolder($"{nameof(ShouldMoveSubfile)}_2").Create();
+
+            Assert.False(newParent.CombineFile("SubFolder_1").Exists);
+            subparent.MoveToFolder(newParent);
+            Assert.True(newParent.CombineFolder("SubFolder_1").Exists);
+            Assert.False(parent.CombineFolder("SubFolder_1").Exists);
+
+            var newFile = newParent.CombineFolder("SubFolder_1").CombineFile("Test_1_1.txt");
+            Assert.Equal("1_1", newFile.Content);
+
+            parent.Delete();
+            newParent.Delete();
+        }
+
+        [Fact]
+        public void ShouldMove()
+        {
+            var parent = _folder.CombineFolder(nameof(ShouldCopySubfile)).Create();
+            var subparent = parent.CombineFolder("SubFolder_1").Create();
+            subparent.CombineFile("Test_1_1.txt").Write("1_1");
+            var newParent = _folder.CombineFolder($"{nameof(ShouldCopySubfile)}_2").Create();
+
+            Assert.False(newParent.CombineFile("SubFolder_2").Exists);
+            subparent.Move(newParent.CombineFolder("Subfolder_2"));
+            Assert.True(newParent.CombineFolder("SubFolder_2").Exists);
+            Assert.False(parent.CombineFolder("SubFolder_2").Exists);
+
+            var newFile = newParent.CombineFolder("SubFolder_2").CombineFile("Test_1_1.txt");
+            Assert.Equal("1_1", newFile.Content);
+
+            parent.Delete();
+            newParent.Delete();
+        }
+
+        [Fact]
+        public void ShouldCopySubfile()
+        {
+            var parent = _folder.CombineFolder(nameof(ShouldCopySubfile)).Create();
+            var subparent = parent.CombineFolder("SubFolder_1").Create();
+            subparent.CombineFile("Test_1_1.txt").Write("1_1");
+            var newParent = _folder.CombineFolder($"{nameof(ShouldCopySubfile)}_2").Create();
+
+            Assert.False(newParent.CombineFile("SubFolder_1").Exists);
+            subparent.CopyToFolder(newParent);
+            Assert.True(newParent.CombineFolder("SubFolder_1").Exists);
+
+            var newFile = newParent.CombineFolder("SubFolder_1").CombineFile("Test_1_1.txt");
+            Assert.Equal("1_1", newFile.Content);
+
+            parent.Delete();
+            newParent.Delete();
+        }
+
+        [Fact]
+        public void ShouldCopy()
+        {
+            var parent = _folder.CombineFolder(nameof(ShouldCopySubfile)).Create();
+            var subparent = parent.CombineFolder("SubFolder_1").Create();
+            subparent.CombineFile("Test_1_1.txt").Write("1_1");
+            var newParent = _folder.CombineFolder($"{nameof(ShouldCopySubfile)}_2").Create();
+
+            Assert.False(newParent.CombineFile("SubFolder_2").Exists);
+            subparent.Copy(newParent.CombineFolder("Subfolder_2"));
+            Assert.True(newParent.CombineFolder("SubFolder_2").Exists);
+
+            var newFile = newParent.CombineFolder("SubFolder_2").CombineFile("Test_1_1.txt");
+            Assert.Equal("1_1", newFile.Content);
+
+            parent.Delete();
+            newParent.Delete();
+        }
+
+        [Fact]
+        public void ShouldReturnAllFiles()
+        {
+            Assert.Equal(
+                14,
+                Directory.EnumerateFiles(_folder, "*", SearchOption.AllDirectories).Count());
+        }
+
+        [Fact]
+        public void ShouldReturnAllFolders()
+        {
+            Assert.Equal(
+                6,
+                Directory.EnumerateDirectories(_folder, "*", SearchOption.AllDirectories).Count());
+        }
+
+        [Fact]
+        public void ShouldReturnFolderName()
+        {
+            var parent = _folder.CombineFolder(nameof(ShouldCopySubfile));
+            Assert.Equal(nameof(ShouldCopySubfile), parent.Name);
+            parent.Delete();
+        }
+
+        [Fact]
+        public void ShouldTestIfFolderExists()
+        {
+            Assert.True(_folder.Exists);
+            Assert.False(_folder.CombineFolder("NOT_HERE").Exists);
+        }
+
+        [Fact]
+        public void ShouldSumSizeOfFolder()
+        {
+            Assert.Equal(44, _folder.CombineFolder("SubFolder_1").Size);
+        }
+
+        [Fact]
+        public void ShouldGetParentDirectory()
+        {
+            var dir = Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName;
+            var parentDir = Directory.GetParent(dir).FullName;
+            var sut = System.IO.Path.Combine(dir).ToPath();
+            var parent = sut.Parent;
+
+            Assert.Equal(parent.ToString(), parentDir);
         }
 
         [Fact]
@@ -132,17 +224,6 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
             var name = sut.ToString().Split('\\').Last();
 
             Assert.Equal(parent.CombineFolder(name).ToString(), sut.ToString());
-        }
-
-        [Fact]
-        public void ShouldGetParentDirectory()
-        {
-            var dir = Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName;
-            var parentDir = Directory.GetParent(dir).FullName;
-            var sut = System.IO.Path.Combine(dir).ToPath();
-            var parent = sut.Parent;
-
-            Assert.Equal(parent.ToString(), parentDir);
         }
 
         [Fact]
@@ -174,23 +255,6 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
         }
 
         [Fact]
-        public void ShouldCopySubfile()
-        {
-            var value = "SubFolder_1\\Test_1_1.txt";
-            var parent = _folder.CombineFolder(nameof(ShouldCopySubfile));
-            parent.Create();
-            var subparent = parent.CombineFolder("SubFolder_1");
-            subparent.Create();
-            var file = parent.CombineFile(value);
-            file.Write("1_1");
-
-            Assert.False(parent.CombineFile("Test_1_1.txt").Exists);
-            file.CopyToFolder(parent);
-            Assert.Equal("1_1", parent.CombineFile(value).Content);
-            parent.Delete();
-        }
-
-        [Fact]
         public void ShouldRemoveSubfolder()
         {
             var value = nameof(ShouldRemoveSubfolder);
@@ -212,15 +276,20 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
         }
 
         [Fact]
-        public void ShouldRemove()
+        public void ShouldDelete()
         {
-            var subFolder = _folder.CombineFolder(nameof(ShouldRemove));
+            var subFolder = _folder.CombineFolder(nameof(ShouldDelete));
             subFolder.Create();
-            subFolder.CombineFile($"{nameof(ShouldRemove)}_1").Write("A");
-            subFolder.CombineFile($"{nameof(ShouldRemove)}_2").Write("B");
+            var file1 = subFolder.CombineFile($"{nameof(ShouldDelete)}_1").Create();
+            var file2 = subFolder.CombineFile($"{nameof(ShouldDelete)}_2").Create();
+
             Assert.True(subFolder.Exists);
+            Assert.True(file1.Exists);
+            Assert.True(file2.Exists);
             subFolder.Delete();
             Assert.False(subFolder.Exists);
+            Assert.False(file1.Exists);
+            Assert.False(file2.Exists);
         }
 
         [Fact]

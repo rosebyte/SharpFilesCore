@@ -57,7 +57,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
             subfolder22.CombineFile("Test_2_2_2.txt").Write("2_2_2");
         }
 
-        public void Dispose() => _folder.Remove();
+        public void Dispose() => _folder.Delete();
 
         [Fact]
         public void ShouldCompareToNull()
@@ -158,7 +158,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
             Assert.True(Directory.Exists(secondFolder));
             Assert.True(Directory.Exists(thirdFolder));
 
-            AppFsFolder.CombineFolder("FolderCreationTest").Remove();
+            AppFsFolder.CombineFolder("FolderCreationTest").Delete();
 
             Assert.False(Directory.Exists(firstFolder));
             Assert.False(Directory.Exists(secondFolder));
@@ -187,7 +187,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
             Assert.False(parent.CombineFile("Test_1_1.txt").Exists);
             file.CopyToParent(parent);
             Assert.Equal("1_1", parent.CombineFile(value).Content);
-            parent.Remove();
+            parent.Delete();
         }
 
         [Fact]
@@ -218,7 +218,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
             Assert.False(_folder.CombineFolder(value).Exists);
             _folder.CreateSubFolder(value);
             Assert.True(_folder.CombineFolder(value).Exists);
-            _folder.CombineFolder(nameof(ShouldCreateSubFolder)).Remove();
+            _folder.CombineFolder(nameof(ShouldCreateSubFolder)).Delete();
         }
 
         [Fact]
@@ -228,7 +228,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
             Assert.False(_folder.CombineFile(value).Exists);
             _folder.CreateSubFile(value);
             Assert.True(_folder.CombineFile(value).Exists);
-            _folder.CombineFolder(nameof(ShouldCreateSubFile)).Remove();
+            _folder.CombineFolder(nameof(ShouldCreateSubFile)).Delete();
         }
 
         [Fact]
@@ -239,7 +239,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
             subFolder.CombineFile($"{nameof(ShouldRemove)}_1").Write("A");
             subFolder.CombineFile($"{nameof(ShouldRemove)}_2").Write("B");
             Assert.True(subFolder.Exists);
-            subFolder.Remove();
+            subFolder.Delete();
             Assert.False(subFolder.Exists);
         }
 

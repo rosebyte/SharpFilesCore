@@ -45,16 +45,15 @@ namespace RoseByte.SharpFiles.Core.Internal
             }
 
             // If copying subdirectories, copy them and their contents to new location.
-            foreach (DirectoryInfo subdir in dirs)
+            foreach (var subdir in dirs)
             {
                 var temppath = System.IO.Path.Combine(destination, subdir.Name).ToFolder();
                 subdir.FullName.ToFolder().Copy(temppath);
-                ;
             }
         }
 
         public override bool Exists => Directory.Exists(Path);
-        protected override long GetSize() => Files.Sum(x => x.Size);
+        public override long Size => Files.Sum(x => x.Size);
 
         public override FsFile CombineFile(string pathPart) => new File(System.IO.Path.Combine(this, pathPart));
         public override FsFolder CombineFolder(string pathPart) => new Folder(System.IO.Path.Combine(Path, pathPart));
@@ -102,14 +101,14 @@ namespace RoseByte.SharpFiles.Core.Internal
             var folder = CombineFolder(child);
             if (folder.Exists)
             {
-                folder.Remove();
+                folder.Delete();
                 return;
             }
 
             var file = CombineFile(child);
             if (file.Exists)
             {
-                file.Remove();
+                file.Delete();
             }
         }
 
@@ -132,7 +131,7 @@ namespace RoseByte.SharpFiles.Core.Internal
             }
         }
 
-        public override void Remove()
+        public override void Delete()
         {
             if (!Exists)
             {
@@ -141,7 +140,7 @@ namespace RoseByte.SharpFiles.Core.Internal
 
             foreach (var file in Files)
             {
-                file.Remove();
+                file.Delete();
             }
 
             Directory.Delete(Path, true);

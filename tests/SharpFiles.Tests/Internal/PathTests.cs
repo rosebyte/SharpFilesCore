@@ -14,7 +14,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
 
         public PathTests() => _folder.Create();
 
-        public void Dispose() => _folder.Remove();
+        public void Dispose() => _folder.Delete();
 
         [Fact]
         public void ShouldReturnFalseToFIleAndFolderTests()

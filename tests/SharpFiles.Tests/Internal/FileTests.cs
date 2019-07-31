@@ -20,7 +20,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
 
         public void Dispose()
         {
-            _folder.Remove();
+            _folder.Delete();
         }
 
         [Fact]
@@ -124,7 +124,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
             var sut = _folder.CombineFile("ShouldRemoveFile_1.txt");
             File.WriteAllText(sut, "ABCD");
             Assert.True(File.Exists(sut));
-            sut.Remove();
+            sut.Delete();
             Assert.True(!File.Exists(sut));
         }
 
@@ -139,7 +139,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
 
             Assert.Equal("ABCD", sut.Content);
 
-            folder.Remove();
+            folder.Delete();
         }
 
         [Fact]
@@ -185,25 +185,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
 
             Assert.Equal(sut.Size, message.Length * 2);
 
-            folder.Remove();
-        }
-
-        [Fact]
-        public void ShouldRecalculateSize()
-        {
-            var message = "111";
-
-            var sut = _folder.CombineFile(nameof(ShouldRecalculateSize));
-
-            sut.Write(message);
-
-            Assert.Equal(sut.Size, message.Length * 2);
-
-            sut.Write(message + message);
-
-            sut.RefreshSize();
-
-            Assert.Equal(sut.Size, message.Length * 3);
+            folder.Delete();
         }
 
         [Fact]
@@ -218,7 +200,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
 
             Assert.Equal("AAAA", File.ReadAllText(sut));
 
-            folder.Remove();
+            folder.Delete();
         }
 
         [Fact]
@@ -228,7 +210,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
             File.WriteAllText(sut, "ABCD");
             File.SetAttributes(sut, FileAttributes.ReadOnly);
             Assert.True(File.Exists(sut));
-            sut.Remove();
+            sut.Delete();
             Assert.True(!File.Exists(sut));
         }
     }

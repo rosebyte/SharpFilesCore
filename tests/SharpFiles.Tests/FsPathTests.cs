@@ -26,15 +26,6 @@ namespace RoseByte.SharpFiles.Core.Tests
         }
 
         [Fact]
-        public void ShouldUseGetSize()
-        {
-            var sut = new Mock<FsPath>("C:\\test.txt");
-            sut.Protected().Setup<long>("GetSize").Returns(100);
-
-            Assert.Equal(100, sut.Object.Size);
-        }
-
-        [Fact]
         public void ShouldImplicitlyConvertToString()
         {
             Assert.Equal("C:", "C:\\".ToPath());

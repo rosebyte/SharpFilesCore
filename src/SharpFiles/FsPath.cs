@@ -6,16 +6,13 @@ namespace RoseByte.SharpFiles.Core
 
         protected FsPath(string value) => Path = value.TrimEnd('/', '\\');
 
-        private long? _size;
-        public long Size => _size ?? (_size = GetSize()).Value;
+        public abstract long Size { get; }
 
         public abstract bool IsFile { get; }
         public abstract bool IsFolder { get; }
         public abstract FsFolder Parent { get; }
         public abstract bool Exists { get; }
-        public abstract void Remove();
-        protected abstract long GetSize();
-        public void RefreshSize() => _size = null;
+        public abstract void Delete();
 
         public static implicit operator string(FsPath input) => input.Path;
         public override string ToString() => Path;

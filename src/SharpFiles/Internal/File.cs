@@ -24,7 +24,7 @@ namespace RoseByte.SharpFiles.Core.Internal
             get => _hash ?? (_hash = SHA256.Create().ComputeHash(System.IO.File.ReadAllBytes(Path)));
         }
 
-        protected override long GetSize() => new FileInfo(Path).Length;
+        public override long Size => new FileInfo(Path).Length;
 
         internal File(string value) : base(value)
         {
@@ -92,7 +92,7 @@ namespace RoseByte.SharpFiles.Core.Internal
             }
         }
 
-        public override void Remove()
+        public override void Delete()
         {
             if (!Exists)
             {
@@ -114,42 +114,6 @@ namespace RoseByte.SharpFiles.Core.Internal
             {
                 throw new Exception($"File '{Path}' could not be deleted: {exception.Message}");
             }
-        }
-
-        private Dictionary<int, string> GetHandler(bool kill = false)
-        {
-            var hndl = Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName;
-            hndl += "\\Helpers\\Handle.exe";
-
-            var p = new Process
-            {
-                StartInfo =
-                {
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    FileName = hndl,
-                    Arguments = Path + " /accepteula",
-                    CreateNoWindow = true
-                }
-            };
-            p.Start();
-            var output = p.StandardOutput.ReadToEnd().Split('\n');
-            var result = new Dictionary<int, string>();
-
-            var rgxPid = new Regex("^(.+?)\\spid: (\\d+)");
-
-            p.WaitForExit();
-
-            for (var i = 5; i < output.Length; i++)
-            {
-                var matches = rgxPid.Match(output[i]);
-                if (matches.Success)
-                {
-                    result.Add(int.Parse(matches.Groups[2].Value), matches.Groups[1].Value);
-                }
-            }
-
-            return result;
         }
 
         public override FsFolder Parent => System.IO.Path.GetDirectoryName(Path).ToFolder();

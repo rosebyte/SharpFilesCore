@@ -88,6 +88,10 @@ namespace RoseByte.SharpFiles.Core.Internal
             }
         }
 
+        public override FsFolder Parent => System.IO.Path.GetDirectoryName(Path).ToFolder();
+
+        public override bool Exists => System.IO.File.Exists(Path);
+
         public override void Delete()
         {
             if (!Exists)
@@ -102,8 +106,6 @@ namespace RoseByte.SharpFiles.Core.Internal
                     System.IO.File.SetAttributes(Path, FileAttributes.Normal);
                 }
 
-                ;
-
                 System.IO.File.Delete(Path);
             }
             catch (Exception exception)
@@ -111,10 +113,6 @@ namespace RoseByte.SharpFiles.Core.Internal
                 throw new Exception($"File '{Path}' could not be deleted: {exception.Message}");
             }
         }
-
-        public override FsFolder Parent => System.IO.Path.GetDirectoryName(Path).ToFolder();
-
-        public override bool Exists => System.IO.File.Exists(Path);
 
         public override FsFile Write(string content)
         {

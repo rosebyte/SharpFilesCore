@@ -1,8 +1,6 @@
 using System;
 using System.IO;
 using System.Reflection;
-using Moq;
-using Moq.Protected;
 using Xunit;
 
 namespace RoseByte.SharpFiles.Core.Tests
@@ -23,6 +21,13 @@ namespace RoseByte.SharpFiles.Core.Tests
             Assert.False(sut == sut3);
             Assert.False(sut != sut2);
             Assert.True(sut != sut3);
+        }
+
+        [Fact]
+        public void ShouldTrimTrailingSlash()
+        {
+            Assert.Equal("C:", "C:\\".ToPath().Path);
+            Assert.Equal("C:", "C://".ToPath().Path);
         }
 
         [Fact]

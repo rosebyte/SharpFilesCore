@@ -21,14 +21,14 @@ namespace RoseByte.SharpFiles.Core.Internal
         {
             get
             {
-                var splited = Path.Split('/');
+                var splited = Path.Replace("/", "\\").Split('\\');
 
                 if (splited.Length < 2)
                 {
                     return null;
                 }
 
-                return string.Join('/', splited.Take(splited.Length - 1)).ToFolder();
+                return string.Join('\\', splited.Take(splited.Length - 1)).ToFolder();
             }
         }
 

@@ -8,7 +8,10 @@ namespace RoseByte.SharpFiles.Core.Internal
 {
     public class Folder : FsFolder
     {
-        internal Folder(string value) : base(value) { }
+        internal Folder(string value) : base(value)
+        {
+        }
+
         public override string Name => System.IO.Path.GetDirectoryName(Path);
 
         // copied from MSDN for now
@@ -26,13 +29,13 @@ namespace RoseByte.SharpFiles.Core.Internal
 
             DirectoryInfo[] dirs = dir.GetDirectories();
             // If the destination directory doesn't exist, create it.
-            
-            
+
+
             if (!Directory.Exists(destination))
             {
                 Directory.CreateDirectory(destination);
             }
-        
+
             // Get the files in the directory and copy them to the new location.
             var files = dir.GetFiles();
             foreach (var file in files)
@@ -45,14 +48,15 @@ namespace RoseByte.SharpFiles.Core.Internal
             foreach (DirectoryInfo subdir in dirs)
             {
                 var temppath = System.IO.Path.Combine(destination, subdir.Name).ToFolder();
-                subdir.FullName.ToFolder().Copy(temppath);;
+                subdir.FullName.ToFolder().Copy(temppath);
+                ;
             }
         }
 
         public override bool Exists => Directory.Exists(Path);
         protected override long GetSize() => Files.Sum(x => x.Size);
-        
-        public override FsFile CombineFile(string pathPart) => new File(System.IO.Path.Combine(this, pathPart));       
+
+        public override FsFile CombineFile(string pathPart) => new File(System.IO.Path.Combine(this, pathPart));
         public override FsFolder CombineFolder(string pathPart) => new Folder(System.IO.Path.Combine(Path, pathPart));
         public override FsFolder Parent => new Folder(Directory.GetParent(Path).FullName);
         public override IEnumerable<FsFile> Files => GetFiles(Path);
@@ -60,7 +64,7 @@ namespace RoseByte.SharpFiles.Core.Internal
 
         private IEnumerable<FsFile> GetFiles(string path)
         {
-            var folders = new []{path.ToFolder()}.Union(GetFolders(path).Select(x => x));
+            var folders = new[] {path.ToFolder()}.Union(GetFolders(path).Select(x => x));
 
             foreach (var folder in folders)
             {
@@ -73,11 +77,11 @@ namespace RoseByte.SharpFiles.Core.Internal
                 }
             }
         }
-        
+
         private IEnumerable<FsFolder> GetFolders(string path)
         {
             var files = Directory.EnumerateDirectories(path, "*", SearchOption.TopDirectoryOnly);
-            
+
             foreach (var file in files)
             {
                 yield return new Folder(file);
@@ -108,7 +112,12 @@ namespace RoseByte.SharpFiles.Core.Internal
                 file.Remove();
             }
         }
-        
+
+        public override void Rename(string name)
+        {
+            Directory.Move(Path, Parent.CombineFolder(name));
+        }
+
         public override void Move(FsFolder destination)
         {
             Directory.Move(Path, destination.CombineFolder(Name));
@@ -134,10 +143,10 @@ namespace RoseByte.SharpFiles.Core.Internal
             {
                 file.Remove();
             }
-            
+
             Directory.Delete(Path, true);
         }
-        
+
         public override void Create()
         {
             if (Exists)
@@ -149,7 +158,7 @@ namespace RoseByte.SharpFiles.Core.Internal
             {
                 throw new Exception("Top level node (e.g. drive) can't be created.");
             }
-            
+
             if (!Parent.Exists)
             {
                 Parent.Create();

@@ -5,7 +5,10 @@ namespace RoseByte.SharpFiles.Core
 {
     public abstract class FsFolder : FsPath
     {
-        protected FsFolder(string value) : base(value) { }
+        protected FsFolder(string value) : base(value)
+        {
+        }
+
         public abstract string Name { get; }
         public abstract FsFile CombineFile(string pathPart);
         public abstract FsFolder CombineFolder(string pathPart);
@@ -19,5 +22,6 @@ namespace RoseByte.SharpFiles.Core
         public abstract void CreateSubFolder(string name);
         public abstract void CreateSubFile(string name);
         public abstract void Remove(string name);
+        public abstract void Rename(string name);
     }
 }

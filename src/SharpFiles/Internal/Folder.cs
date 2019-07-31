@@ -14,41 +14,38 @@ namespace RoseByte.SharpFiles.Core.Internal
 
         public override string Name => System.IO.Path.GetDirectoryName(Path);
 
-        // copied from MSDN for now
         public override void Copy(FsFolder destination)
         {
-            // Get the subdirectories for the specified directory.
-            DirectoryInfo dir = new DirectoryInfo(Path);
+            destination.Create();
 
-            if (!dir.Exists)
+            foreach (var subFolder in Folders)
             {
-                throw new DirectoryNotFoundException(
-                    "Source directory does not exist or could not be found: "
-                    + Path);
+                var subpath = subFolder.Path.Substring(Path.Length);
+                destination.CombineFolder(subpath).Create();
             }
 
-            DirectoryInfo[] dirs = dir.GetDirectories();
-            // If the destination directory doesn't exist, create it.
-
-
-            if (!Directory.Exists(destination))
+            foreach (var file in Files)
             {
-                Directory.CreateDirectory(destination);
+                var subFile = file.Path.Substring(Path.Length);
+                destination.CombineFile(subFile)
+                    .CopyToFolder(destination.CombineFile(subFile).Parent);
+            }
+        }
+
+        public override void CopyToFolder(FsFolder destination)
+        {
+            var target = destination.CombineFolder(Name).Create();
+
+            foreach (var folder in Folders)
+            {
+                var subFolder = folder.Path.Substring(Path.Length);
+                target.CombineFolder(subFolder).Create();
             }
 
-            // Get the files in the directory and copy them to the new location.
-            var files = dir.GetFiles();
-            foreach (var file in files)
+            foreach (var file in Files)
             {
-                var temppath = System.IO.Path.Combine(destination, file.Name);
-                file.CopyTo(temppath, false);
-            }
-
-            // If copying subdirectories, copy them and their contents to new location.
-            foreach (var subdir in dirs)
-            {
-                var temppath = System.IO.Path.Combine(destination, subdir.Name).ToFolder();
-                subdir.FullName.ToFolder().Copy(temppath);
+                var subFile = file.Path.Substring(Path.Length);
+                file.CopyToFolder(target.CombineFile(subFile).Parent);
             }
         }
 
@@ -87,16 +84,7 @@ namespace RoseByte.SharpFiles.Core.Internal
             }
         }
 
-        public override void CreateSubFile(string name)
-        {
-            var file = CombineFile(name);
-            if (!file.Exists)
-            {
-                file.Write(string.Empty);
-            }
-        }
-
-        public override void Remove(string child)
+        public override void Delete(string child)
         {
             var folder = CombineFolder(child);
             if (folder.Exists)
@@ -112,23 +100,23 @@ namespace RoseByte.SharpFiles.Core.Internal
             }
         }
 
-        public override void Rename(string name)
+        public override FsFolder Rename(string name)
         {
             Directory.Move(Path, Parent.CombineFolder(name));
+            return this;
         }
 
-        public override void Move(FsFolder destination)
+        public override FsFolder MoveToFolder(FsFolder destination)
         {
-            Directory.Move(Path, destination.CombineFolder(Name));
+            var target = destination.CombineFolder(Name);
+            Directory.Move(Path, target);
+            return target;
         }
 
-        public override void CreateSubFolder(string name)
+        public override FsFolder Move(FsFolder destination)
         {
-            var folder = CombineFolder(name);
-            if (!folder.Exists)
-            {
-                folder.Create();
-            }
+            Directory.Move(Path, destination);
+            return destination;
         }
 
         public override void Delete()
@@ -146,11 +134,11 @@ namespace RoseByte.SharpFiles.Core.Internal
             Directory.Delete(Path, true);
         }
 
-        public override void Create()
+        public override FsFolder Create()
         {
             if (Exists)
             {
-                return;
+                return this;
             }
 
             if (Parent == null)
@@ -164,6 +152,8 @@ namespace RoseByte.SharpFiles.Core.Internal
             }
 
             Directory.CreateDirectory(Path);
+
+            return this;
         }
     }
 }

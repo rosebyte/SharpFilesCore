@@ -185,7 +185,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
             file.Write("1_1");
 
             Assert.False(parent.CombineFile("Test_1_1.txt").Exists);
-            file.CopyToParent(parent);
+            file.CopyToFolder(parent);
             Assert.Equal("1_1", parent.CombineFile(value).Content);
             parent.Delete();
         }
@@ -194,9 +194,9 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
         public void ShouldRemoveSubfolder()
         {
             var value = nameof(ShouldRemoveSubfolder);
-            _folder.CreateSubFolder(value);
+            _folder.CombineFolder(value).Create();
             Assert.True(_folder.CombineFolder(value).Exists);
-            _folder.Remove(value);
+            _folder.Delete(value);
             Assert.False(_folder.CombineFolder(value).Exists);
         }
 
@@ -204,31 +204,11 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
         public void ShouldRemoveSubfile()
         {
             var value = $"{nameof(ShouldRemoveSubfile)}\\{nameof(ShouldRemoveSubfile)}";
-            _folder.CreateSubFile(value);
+            _folder.CombineFile(value).Create();
 
             Assert.True(_folder.CombineFile(value).Exists);
-            _folder.Remove(value);
+            _folder.Delete(value);
             Assert.False(_folder.CombineFile(value).Exists);
-        }
-
-        [Fact]
-        public void ShouldCreateSubFolder()
-        {
-            var value = nameof(ShouldCreateSubFolder);
-            Assert.False(_folder.CombineFolder(value).Exists);
-            _folder.CreateSubFolder(value);
-            Assert.True(_folder.CombineFolder(value).Exists);
-            _folder.CombineFolder(nameof(ShouldCreateSubFolder)).Delete();
-        }
-
-        [Fact]
-        public void ShouldCreateSubFile()
-        {
-            var value = nameof(ShouldCreateSubFile);
-            Assert.False(_folder.CombineFile(value).Exists);
-            _folder.CreateSubFile(value);
-            Assert.True(_folder.CombineFile(value).Exists);
-            _folder.CombineFolder(nameof(ShouldCreateSubFile)).Delete();
         }
 
         [Fact]

@@ -205,6 +205,24 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
         }
 
         [Fact]
+        public void ParentDirectoryChainShouldEndWithNull()
+        {
+            var dir = Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName;
+            var sut = System.IO.Path.Combine(dir).ToPath();
+
+            while (sut.Parent != null)
+            {
+                var current = sut;
+                sut = sut.Parent;
+                Assert.Equal(
+                    current.ToString().Split("\\").Length - 1,
+                    sut.ToString().Split("\\").Length);
+            }
+
+            Assert.Null(sut.Parent);
+        }
+
+        [Fact]
         public void ShouldCombineFile()
         {
             var dir = Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName;

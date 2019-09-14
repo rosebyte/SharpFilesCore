@@ -34,8 +34,6 @@ namespace RoseByte.SharpFiles.Core.Internal
             {
                 System.IO.File.SetAttributes(Path, FileAttributes.Normal);
             }
-
-            ;
         }
 
         public override Encoding Encoding

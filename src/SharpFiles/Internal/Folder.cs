@@ -105,7 +105,14 @@ namespace RoseByte.SharpFiles.Core.Internal
 
         public override long Size => Files.Sum(x => x.Size);
 
-        public override FsFolder Parent => new Folder(Directory.GetParent(Path).FullName);
+        public override FsFolder Parent
+        {
+            get
+            {
+                var parent = Directory.GetParent(Path).FullName;
+                return parent.Length > Path.Length ? null : new Folder(parent);
+            }
+        }
 
         public override FsFile CombineFile(string pathPart) =>
             new File(System.IO.Path.Combine(this, pathPart.TrimStart('/', '\\')));

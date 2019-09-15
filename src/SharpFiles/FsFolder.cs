@@ -22,5 +22,6 @@ namespace RoseByte.SharpFiles.Core
         public abstract FsFolder MoveToFolder(FsFolder destination);
         public abstract void Delete(string name);
         public abstract FsFolder Rename(string name);
+        public abstract bool IsEmpty { get; }
     }
 }

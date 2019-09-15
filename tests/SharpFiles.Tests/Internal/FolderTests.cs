@@ -157,6 +157,29 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
         }
 
         [Fact]
+        public void ShouldTestEmptyFolder()
+        {
+            var parent = _folder.CombineFolder(nameof(ShouldTestEmptyFolder)).Create();
+            Assert.True(parent.IsEmpty);
+        }
+
+        [Fact]
+        public void ShouldTestFolderWithFile()
+        {
+            var parent = _folder.CombineFolder(nameof(ShouldTestEmptyFolder)).Create();
+            parent.CombineFile("test.txt").Create();
+            Assert.False(parent.IsEmpty);
+        }
+
+        [Fact]
+        public void ShouldTestFolderWithFolder()
+        {
+            var parent = _folder.CombineFolder(nameof(ShouldTestEmptyFolder)).Create();
+            parent.CombineFolder("test").Create();
+            Assert.False(parent.IsEmpty);
+        }
+
+        [Fact]
         public void ShouldReturnAllFiles()
         {
             Assert.Equal(

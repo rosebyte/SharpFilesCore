@@ -126,6 +126,8 @@ namespace RoseByte.SharpFiles.Core.Internal
             return this;
         }
 
+        public override bool IsEmpty => !Directory.EnumerateFileSystemEntries(Path).Any();
+
         public override void Delete()
         {
             if (!Exists)

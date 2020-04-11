@@ -4,7 +4,7 @@
         <TargetFramework>netcoreapp2.2</TargetFramework>
         <AssemblyName>RoseByte.SharpFiles.Core</AssemblyName>
         <RootNamespace>RoseByte.SharpFiles.Core</RootNamespace>
-        <PackageVersion>1.3.0</PackageVersion>
+        <PackageVersion>1.3.1</PackageVersion>
         <Title>SharpFiles Core</Title>
         <Authors>Jaroslav Ruzicka</Authors>
         <Description>Filepath abstraction connecting various static functions provided by .NET</Description>

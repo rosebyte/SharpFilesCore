@@ -13,6 +13,8 @@ namespace RoseByte.SharpFiles.Core.Internal
         private string _content;
         public override string Content => _content ?? (_content = System.IO.File.ReadAllText(Path));
 
+        public override string ReadAllText() => System.IO.File.ReadAllText(Path);
+
         private byte[] _hash;
 
         public override byte[] Hash
@@ -105,6 +107,7 @@ namespace RoseByte.SharpFiles.Core.Internal
                 }
 
                 System.IO.File.Delete(Path);
+                _content = null;
             }
             catch (Exception exception)
             {
@@ -118,6 +121,7 @@ namespace RoseByte.SharpFiles.Core.Internal
             {
                 PrepareCopy(this);
                 System.IO.File.WriteAllText(Path, content, Encoding.UTF8);
+                _content = content;
             }
             catch (Exception exception)
             {

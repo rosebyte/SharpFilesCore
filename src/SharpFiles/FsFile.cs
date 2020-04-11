@@ -20,5 +20,6 @@ namespace RoseByte.SharpFiles.Core
         public abstract void Copy(FsFile target);
         public abstract void CopyToFolder(FsFolder destination);
         public abstract Encoding Encoding { get; }
+        public abstract string ReadAllText();
     }
 }

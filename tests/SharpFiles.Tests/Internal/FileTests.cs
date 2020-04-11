@@ -62,6 +62,20 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
 
             folder.Delete();
         }
+        
+        [Fact]
+        public void ShouldReadAllText()
+        {
+            var folder = AppFsFolder.CombineFolder(nameof(ShouldReadAllText));
+            folder.Create();
+            File.WriteAllText(folder.CombineFile("test1.txt"), "ABCD");
+
+            var sut = folder.CombineFile("test1.txt");
+
+            Assert.Equal("ABCD", sut.ReadAllText());
+
+            folder.Delete();
+        }
 
         [Fact]
         public void ShouldCopyToFolder()

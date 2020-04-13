@@ -8,9 +8,7 @@ namespace RoseByte.SharpFiles.Core.Internal
 {
     public class Folder : FsFolder
     {
-        internal Folder(string value) : base(value)
-        {
-        }
+        internal Folder(string value) : base(value) { }
 
         public override FsFolder MoveToFolder(FsFolder destination)
         {
@@ -25,17 +23,23 @@ namespace RoseByte.SharpFiles.Core.Internal
             return destination;
         }
 
+        public override IEnumerable<FsFolder> SearchFolders(string mask = "*")
+        {
+            return Directory.EnumerateDirectories(Path, mask, SearchOption.AllDirectories)
+                .Select(x => x.ToFolder());
+        }
+
         public override void Copy(FsFolder destination)
         {
             destination.Create();
 
-            foreach (var subFolder in Folders)
+            foreach (var subFolder in SearchFolders())
             {
                 var subpath = subFolder.Path.Substring(Path.Length);
                 destination.CombineFolder(subpath).Create();
             }
 
-            foreach (var file in Files)
+            foreach (var file in SearchFiles())
             {
                 var subFile = file.Path.Substring(Path.Length);
                 file.Copy(destination.CombineFile(subFile));
@@ -63,31 +67,23 @@ namespace RoseByte.SharpFiles.Core.Internal
         {
             get
             {
-                var folders = new[] {Path.ToFolder()}.Union(Folders.Select(x => x));
-
-                foreach (var folder in folders)
-                {
-                    var files = Directory.EnumerateFiles(folder, "*", SearchOption.TopDirectoryOnly)
-                        .Select(x => new File(x));
-
-                    foreach (var file in files)
-                    {
-                        yield return new File(file);
-                    }
-                }
+                return Directory.EnumerateFiles(Path, "*", SearchOption.TopDirectoryOnly)
+                    .Select(x => new File(x));
             }
+        }
+
+        public override IEnumerable<FsFile> SearchFiles(string mask = "*")
+        {
+            return Directory.EnumerateFiles(Path, mask, SearchOption.AllDirectories)
+                .Select(x => new File(x));
         }
 
         public override IEnumerable<FsFolder> Folders
         {
             get
             {
-                var files = Directory.EnumerateDirectories(Path, "*", SearchOption.TopDirectoryOnly);
-
-                foreach (var file in files)
-                {
-                    yield return new Folder(file);
-                }
+                return Directory.EnumerateDirectories(Path, "*", SearchOption.TopDirectoryOnly)
+                    .Select(x => x.ToFolder());
             }
         }
 

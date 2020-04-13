@@ -87,7 +87,7 @@ namespace RoseByte.SharpFiles.Core.Tests.Internal
             var newParent = _folder.CombineFolder($"{nameof(ShouldMoveSubfile)}_2").Create();
 
             Assert.False(newParent.CombineFile("SubFolder_1").Exists);
-            subparent.MoveToFolder(newParent);
+            subparent.Move(newParent.CombineFolder(subparent.Name));
             Assert.True(newParent.CombineFolder("SubFolder_1").Exists);
             Assert.False(parent.CombineFolder("SubFolder_1").Exists);
 

@@ -10,17 +10,10 @@ namespace RoseByte.SharpFiles.Core.Internal
     {
         internal Folder(string value) : base(value) { }
 
-        public override FsFolder MoveToFolder(FsFolder destination)
-        {
-            var target = destination.CombineFolder(Name);
-            Directory.Move(Path, target);
-            return target;
-        }
-
         public override FsFolder Move(FsFolder destination)
         {
             Directory.Move(Path, destination);
-            return destination;
+            return this;
         }
 
         public override IEnumerable<FsFolder> SearchFolders(string mask = "*")
@@ -99,7 +92,7 @@ namespace RoseByte.SharpFiles.Core.Internal
 
         public override bool Exists => Directory.Exists(Path);
 
-        public override long Size => Files.Sum(x => x.Size);
+        public override long Size => SearchFiles().Sum(x => x.Size);
 
         public override FsFolder Parent
         {

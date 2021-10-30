@@ -8,9 +8,9 @@ namespace RoseByte.SharpFiles.Core
         {
         }
 
-        public abstract string Name { get; }
+        public abstract string NameMess { get; }
         public abstract string NameWithoutExtension { get; }
-        public abstract string Content { get; }
+        public abstract string ContentMess { get; }
         public abstract bool HasEncoding(Encoding encoding);
         public abstract FsFile Write(string content);
         public override bool IsFile => true;
@@ -18,7 +18,7 @@ namespace RoseByte.SharpFiles.Core
         public abstract byte[] Hash { get; }
         public abstract FsFile Create();
         public abstract void Copy(FsFile target);
-        public abstract void CopyToFolder(FsFolder destination);
+        public abstract void Copy(FsFile target);
         public abstract Encoding Encoding { get; }
         public abstract string ReadAllText();
     }

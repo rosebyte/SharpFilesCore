@@ -10,8 +10,8 @@ namespace RoseByte.SharpFiles.Core
 
         public abstract string Name { get; }
         public abstract FsFile CombineFile(string pathPart);
-        public abstract FsFolder CombineFolder(string pathPart);
-        public abstract FsFolder Create();
+        public abstract FsFolder CombineFolderMess(string pathPart);
+        public abstract FsFolder CreateMess();
         public override bool IsFile => false;
         public override bool IsFolder => true;
         public abstract IEnumerable<FsFile> Files { get; }
@@ -19,8 +19,6 @@ namespace RoseByte.SharpFiles.Core
         public abstract IEnumerable<FsFolder> Folders { get; }
         public abstract IEnumerable<FsFolder> SearchFolders(string mask = "*");
         public abstract void Copy(FsFolder destination);
-        public abstract void CopyToFolder(FsFolder destination);
-        public abstract FsFolder Move(FsFolder destination);
         public abstract void Delete(string name);
         public abstract FsFolder Rename(string name);
         public abstract bool IsEmpty { get; }
